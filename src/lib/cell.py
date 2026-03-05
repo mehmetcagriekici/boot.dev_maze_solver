@@ -6,7 +6,8 @@ class Cell:
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
-        self.has_bottom_Wall = True
+        self.has_bottom_wall = True
+        self.visited = False
 
         self.__x1 = -1
         self.__x2 = -1
@@ -21,25 +22,36 @@ class Cell:
         self.__y1 = y1
         self.__y2 = y2
 
+
+        p1 = Point(x1, y1)
+        p2 = Point(x1, y2)
         if self.has_left_wall:
-            p1 = Point(x1, y1)
-            p2 = Point(x1, y2)
             self.__draw_wall(p1, p2)
-        
+        else:
+            self.__draw_wall(p1, p2, color="#d9d9d9")
+
+
+        p1 = Point(x1, y1)
+        p2 = Point(x2, y1)
         if self.has_top_wall:
-            p1 = Point(x1, y1)
-            p2 = Point(x2, y1)
             self.__draw_wall(p1, p2)
+        else:
+            self.__draw_wall(p1, p2, color="#d9d9d9")
         
+        p1 = Point(x2, y1)
+        p2 = Point(x2, y2)
         if self.has_right_wall:
-            p1 = Point(x2, y1)
-            p2 = Point(x2, y2)
             self.__draw_wall(p1, p2)
-        
-        if self.has_bottom_Wall:
-            p1 = Point(x1, y2)
-            p2 = Point(x2, y2)
+        else:
+            self.__draw_wall(p1, p2, color="#d9d9d9")
+
+            
+        p1 = Point(x1, y2)
+        p2 = Point(x2, y2)
+        if self.has_bottom_wall:
             self.__draw_wall(p1, p2)
+        else:
+            self.__draw_wall(p1, p2, color="#d9d9d9")
 
     def draw_move(self, to_cell, undo=False):
         center_self = self.__calc_center()
@@ -53,9 +65,9 @@ class Cell:
 
         self.__win.draw_line(line, fill)
 
-    def __draw_wall(self, p1: Point, p2: Point):
+    def __draw_wall(self, p1: Point, p2: Point, color="black"):
         line = Line(p1, p2)
-        self.__win.draw_line(line, "black")
+        self.__win.draw_line(line, color)
 
     def __calc_center(self):
         x = (self.__x1 + self.__x2) / 2
